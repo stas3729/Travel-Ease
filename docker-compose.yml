@@ -1,0 +1,32 @@
+services:
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./api-gateway/src:/usr/src/app/src
+    command: yarn start:dev
+  users-microservice:
+    build: ./users
+    volumes:
+      - ./users/src:/usr/src/app/src
+    command: yarn start:dev
+  mailer-microservice:
+    build: ./mailer
+    volumes:
+        - ./mailer/src:/usr/src/app/src
+    command: yarn start:dev
+  nats:
+    image: nats
+    ports:
+      - 4222:4222
+  postgresql_db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRESQL_ROOT_PASSWORD=root_password_123
+      - POSTGRESQL_DATABASE=travel-ease
+      - POSTGRESQL_USER=postgres
+      - POSTGRESQL_PASSWORD=test123
+      - POSTGRESQL_PORT=5432
