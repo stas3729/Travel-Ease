@@ -9,12 +9,13 @@ import * as Joi from 'joi';
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
-        MAIL_PORT: Joi.string(),
-        MAIL_USER: Joi.string(),
-        MAIL_PASS: Joi.string(),
-        MAIL_HOST: Joi.string(),
-        APP_NAME: Joi.string(),
+        MAIL_PORT: Joi.string().required(),
+        MAIL_USER: Joi.string().required(),
+        MAIL_PASS: Joi.string().required(),
+        MAIL_HOST: Joi.string().required(),
+        APP_NAME: Joi.string().required(),
       }),
+      ignoreEnvFile: true,
     }),
   ],
   controllers: [],

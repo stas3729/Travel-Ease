@@ -8,8 +8,9 @@ import { UsersModule } from './users/users.module';
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
-        PORT: Joi.string(),
+        PORT: Joi.string().required(),
       }),
+      ignoreEnvFile: true,
     }),
     UsersModule,
   ],

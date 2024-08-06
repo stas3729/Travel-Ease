@@ -12,6 +12,8 @@ services:
       - mongodb-primary
       - mongodb-secondary
       - mongodb-arbiter
+    environment:
+      - PORT=3000
   users-microservice:
     build:
       context: .
@@ -23,6 +25,8 @@ services:
       - mongodb-primary
       - mongodb-secondary
       - mongodb-arbiter
+    environment:
+      - MONGODB_URI=mongodb://root:password123@mongodb-primary:27017/
   mailer-microservice:
     build:
       context: .
@@ -34,6 +38,12 @@ services:
       - mongodb-primary
       - mongodb-secondary
       - mongodb-arbiter
+    environment:
+      - MAIL_PORT=465
+      - MAIL_HOST=gmail
+      - MAIL_USER=stanislavkravchenko17@gmail.command
+      - MAIL_PASS=feyr pvjq trqj srwm 
+      - APP_NAME=Travel-Ease
   nats:
     image: nats
     ports:
