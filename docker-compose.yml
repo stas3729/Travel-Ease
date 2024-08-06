@@ -1,4 +1,15 @@
 services:
+  auth-microservice:
+    build:
+      context: .
+      dockerfile: ./auth/Dockerfile
+    volumes:
+      - ./auth/src:/usr/src/app/src
+    command: yarn start:dev
+    depends_on:
+      - mongodb-primary
+      - mongodb-secondary
+      - mongodb-arbiter
   api-gateway:
     build:
       context: .
