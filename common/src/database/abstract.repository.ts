@@ -73,4 +73,8 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     session.startTransaction();
     return session;
   }
+
+  async delete() {
+    return this.model.deleteMany();
+  }
 }

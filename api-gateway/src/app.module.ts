@@ -7,7 +7,6 @@ import { UsersModule } from './users/users.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
       validationSchema: Joi.object({
         PORT: Joi.string(),
       }),

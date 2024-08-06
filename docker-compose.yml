@@ -24,7 +24,9 @@ services:
       - mongodb-secondary
       - mongodb-arbiter
   mailer-microservice:
-    build: ./mailer
+    build:
+      context: .
+      dockerfile: ./mailer/Dockerfile
     volumes:
         - ./mailer/src:/usr/src/app/src
     command: yarn start:dev
