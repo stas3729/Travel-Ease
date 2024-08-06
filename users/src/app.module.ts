@@ -7,11 +7,12 @@ import * as Joi from 'joi';
   imports: [
     UsersModule,
     ConfigModule.forRoot({
-    isGlobal: true,
-    validationSchema: Joi.object({
-      MONGODB_URI: Joi.string(),
+      isGlobal: true,
+      validationSchema: Joi.object({
+        MONGODB_URI: Joi.string(),
+      }),
     }),
-  })],
+  ],
   controllers: [],
   providers: [],
 })
