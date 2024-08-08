@@ -11,4 +11,9 @@ export class UsersController {
   async createUser(@Payload() dto: CreateUserDto) {
     return await this.usersService.createUser(dto);
   }
+
+  @MessagePattern({ cmd: 'findUserByEMail'})
+  async handleFindUserByEmail(@Payload() data: { email: string }) {
+    return this.usersService.findOneByEmail(data.email);
+  }
 }
