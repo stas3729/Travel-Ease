@@ -1,6 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { User } from 'shared/src/entities/user.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Global()
 @Module({
@@ -8,16 +9,16 @@ import { User } from 'shared/src/entities/user.entity';
   providers: [
     {
       provide: DataSource,
-      inject: [],
-      useFactory: async () => {
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
         try {
           const dataSource = new DataSource({
             type: 'postgres',
-            host: 'postgres',
-            port: 5432,
-            username: 'postgres',
-            password: 'test123',
-            database: 'postgres',
+            host: configService.get<string>('DB_HOST'),
+            port: parseInt(configService.get<string>('DB_PORT')),
+            username: configService.get<string>('DB_USERNAME'),
+            password: configService.get<string>('DB_PASSWORD'),
+            database: configService.get<string>('DB_NAME'),
             synchronize: true,
             entities: [User],
           });

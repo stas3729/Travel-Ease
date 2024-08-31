@@ -19,6 +19,18 @@ services:
       - ./users/src:/usr/src/app/src
       - ./shared:/usr/src/app/shared
     command: yarn start:dev
+    env_file:
+      - ./users/.env
+  emails:
+    build:
+      context: .
+      dockerfile: ./emails/Dockerfile
+    volumes:
+      - ./emails/src:/usr/src/app/src
+      - ./shared:/usr/src/app/shared
+    command: yarn start:dev
+    env_file:
+      - ./emails/.env
   nats:
     image: nats
     ports:
