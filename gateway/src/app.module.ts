@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { UsersModule } from './users/users.module';
-import {AuthModule} from "./auth/auth.module";
+import { AuthModule } from './auth/auth.module';
+import { ToursModule } from './tours/tours.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import {AuthModule} from "./auth/auth.module";
     }),
     UsersModule,
     AuthModule,
+    ToursModule,
   ],
   controllers: [],
   providers: [],

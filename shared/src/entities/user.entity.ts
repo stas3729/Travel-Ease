@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
+import { Tour } from './tour.entity';
 
 @Entity('users')
 export class User {
@@ -13,4 +20,8 @@ export class User {
 
   @Column()
   username: string;
+
+  @ManyToMany(() => Tour, (tour) => tour.subscribers, { nullable: true })
+  @JoinTable()
+  tours: Tour[];
 }

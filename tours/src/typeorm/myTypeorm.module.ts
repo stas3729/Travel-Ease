@@ -1,8 +1,8 @@
 import { Global, Module } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { User } from 'shared/src/entities/user.entity';
-import { ConfigService } from '@nestjs/config';
 import { Tour } from 'shared/src/entities/tour.entity';
+import { ConfigService } from '@nestjs/config';
+import { User } from 'shared/src/entities/user.entity';
 
 @Global()
 @Module({
@@ -21,7 +21,7 @@ import { Tour } from 'shared/src/entities/tour.entity';
             password: configService.get<string>('DB_PASSWORD'),
             database: configService.get<string>('DB_NAME'),
             synchronize: true,
-            entities: [User, Tour],
+            entities: [Tour, User],
           });
           await dataSource.initialize();
           console.log('Database connected successfully.');
