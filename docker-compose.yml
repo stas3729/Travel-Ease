@@ -1,0 +1,35 @@
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: ./gateway/Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./gateway/src:/usr/src/app/src
+      - ./shared:/usr/src/app/shared
+    command: yarn start:dev
+    env_file:
+      - ./gateway/.env
+  users:
+    build:
+      context: .
+      dockerfile: ./users/Dockerfile
+    volumes:
+      - ./users/src:/usr/src/app/src
+      - ./shared:/usr/src/app/shared
+    command: yarn start:dev
+  nats:
+    image: nats
+    ports:
+      - "4222:4222"
+  postgres:
+    image: postgres
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+        - POSTGRES_USERNAME=postgres
+        - POSTGRES_PASSWORD=test123
+        - POSTGRES_DATABASE=postgres
