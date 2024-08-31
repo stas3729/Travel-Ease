@@ -21,6 +21,16 @@ services:
     command: yarn start:dev
     env_file:
       - ./users/.env
+  tours:
+    build:
+      context: .
+      dockerfile: ./tours/Dockerfile
+    volumes:
+      - ./tours/src:/usr/src/app/src
+      - ./shared:/usr/src/app/shared
+    command: yarn start:dev
+    env_file:
+      - ./tours/.env
   emails:
     build:
       context: .

@@ -10,4 +10,4 @@ RUN yarn install
 
 COPY ./shared /usr/src/app/shared
 
-COPY . .
+COPY ./gateway .

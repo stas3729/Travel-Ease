@@ -10,4 +10,9 @@ export class UsersMicroserviceController {
   async handleSignup(@Payload() createUserDto: CreateUserDto) {
     return this.usersService.signup(createUserDto);
   }
+
+  @MessagePattern({ cmd: 'findUser' })
+  async findUser(@Payload() email: string) {
+    return await this.usersService.findByEmail(email);
+  }
 }
