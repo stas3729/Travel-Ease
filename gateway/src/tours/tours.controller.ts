@@ -1,6 +1,6 @@
 import {
   Body,
-  Controller,
+  Controller, Delete,
   Get,
   HttpException,
   Inject,
@@ -62,5 +62,10 @@ export class ToursController {
   @Get()
   all() {
     return this.natsClient.send({ cmd: 'allTours' }, {});
+  }
+
+  @Delete()
+  delete() {
+    return this.natsClient.send({ cmd: 'deleteTours' }, {});
   }
 }

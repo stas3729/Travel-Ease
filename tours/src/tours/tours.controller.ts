@@ -41,4 +41,9 @@ export class ToursMicroserviceController {
       msg: 'Success!',
     };
   }
+
+  @MessagePattern({ cmd: 'deleteTours' })
+  async deleteTours() {
+    return await this.toursService.deleteTours();
+  }
 }

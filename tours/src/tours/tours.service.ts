@@ -23,4 +23,8 @@ export class ToursService {
   allTours() {
     return this.toursRepository.find();
   }
+
+  deleteTours() {
+    return this.toursRepository.delete({});
+  }
 }
