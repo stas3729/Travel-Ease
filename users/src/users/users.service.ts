@@ -5,12 +5,15 @@ import { User } from 'shared/src/entities/user.entity';
 import { Repository } from 'typeorm';
 import { hash } from 'argon2';
 import { ClientProxy } from '@nestjs/microservices';
+import { JwtService } from '@nestjs/jwt';
+import { Tour } from 'shared/src/entities/tour.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     @Inject('NATS_SERVICE') private natsClient: ClientProxy,
+    private jwtService: JwtService,
   ) {}
 
   async signup(createUserDto: CreateUserDto) {
@@ -35,5 +38,15 @@ export class UsersService {
 
   findByEmail(email: string) {
     return this.userRepository.findOne({ where: { email } });
+  }
+
+  async subscribeUserToTour(token: string, tour: Tour) {
+    const payload = this.jwtService.decode(token);
+    const user: User = await this.userRepository.findOne({
+      where: { email: payload.email },
+      relations: ['tours'],
+    });
+    user.tours.push(tour);
+    return user;
   }
 }

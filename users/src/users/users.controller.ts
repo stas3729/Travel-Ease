@@ -15,4 +15,9 @@ export class UsersMicroserviceController {
   async findUser(@Payload() email: string) {
     return await this.usersService.findByEmail(email);
   }
+
+  @MessagePattern({ cmd: 'subscribeUserToTour' })
+  async subscribeUserToTour(@Payload() { token, isTourExists }) {
+    return this.usersService.subscribeUserToTour(token, isTourExists);
+  }
 }
