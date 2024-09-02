@@ -4,6 +4,7 @@ import { CreateUserDto } from 'shared/src/dto/create-user.dto';
 import { SendEmailDto } from './mail.interface';
 import { EmailsService } from './emails.service';
 import { ConfigService } from '@nestjs/config';
+import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 @Controller()
 export class EmailsMicroserviceController {
@@ -13,7 +14,7 @@ export class EmailsMicroserviceController {
   ) {}
 
   @MessagePattern({ cmd: 'signup_email' })
-  async signupEMail(@Payload() createUserDto: CreateUserDto) {
+  async signupEMail(@Payload() createUserDto: CreateUserDto):  Promise<SMTPTransport.SentMessageInfo> {
     const sendEmailDto: SendEmailDto = {
       from: {
         name: this.configService.get<string>('FROM_NAME'),

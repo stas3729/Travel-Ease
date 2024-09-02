@@ -16,8 +16,8 @@ export class UsersService {
     private jwtService: JwtService,
   ) {}
 
-  async signup(createUserDto: CreateUserDto) {
-    const isUserExists = await this.findByEmail(createUserDto.email);
+  async signup(createUserDto: CreateUserDto): Promise<{ msg: string }> {
+    const isUserExists: User = await this.findByEmail(createUserDto.email);
     if (isUserExists) {
       throw new HttpException('User with this already exists', 409);
     }
@@ -36,12 +36,12 @@ export class UsersService {
     };
   }
 
-  findByEmail(email: string) {
+  findByEmail(email: string): Promise<User> {
     return this.userRepository.findOne({ where: { email } });
   }
 
-  async subscribeUserToTour(token: string, tour: Tour) {
-    const payload = this.jwtService.decode(token);
+  async subscribeUserToTour(token: string, tour: Tour): Promise<User> {
+    const payload: any = this.jwtService.decode(token);
     const user: User = await this.userRepository.findOne({
       where: { email: payload.email },
       relations: ['tours'],

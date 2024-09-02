@@ -12,16 +12,22 @@ export class AuthService {
     private readonly jwtService: JwtService,
     @Inject('NATS_SERVICE') private natsClient: ClientProxy,
   ) {}
-  async validateUser({ email, password }: AuthDto, res: Response) {
+  async validateUser(
+    { email, password }: AuthDto,
+    res: Response,
+  ): Promise<{ msg: string }> {
     const findUser = await lastValueFrom(
       this.natsClient.send({ cmd: 'findUser' }, email),
     );
     if (!findUser) return null;
-    const isPasswordCorrect = await verify(findUser.password, password);
+    const isPasswordCorrect: boolean = await verify(
+      findUser.password,
+      password,
+    );
     if (isPasswordCorrect) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...rest } = findUser;
-      const token = this.jwtService.sign(rest);
+      const token: string = this.jwtService.sign(rest);
       res.cookie('token', token, {
         httpOnly: true,
         secure: false,

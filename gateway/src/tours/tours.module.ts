@@ -3,19 +3,12 @@ import { NatsClientModule } from 'shared/src/nats/nats-client.module';
 import { ToursController } from './tours.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import {MyJwtModule} from "shared/src/jwt/jwt.module";
 
 @Module({
   imports: [
     NatsClientModule,
-    JwtModule.registerAsync({
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
-        signOptions: {
-          expiresIn: '1h',
-        },
-      }),
-    }),
+    MyJwtModule,
   ],
   controllers: [ToursController],
 })

@@ -4,23 +4,26 @@ import { CreateTourDto } from 'shared/src/dto/create-tour.dto';
 import { ToursService } from './tours.service';
 import { User } from 'shared/src/entities/user.entity';
 import { Tour } from 'shared/src/entities/tour.entity';
+import {DeleteResult} from "typeorm";
 
 @Controller()
 export class ToursMicroserviceController {
   constructor(private toursService: ToursService) {}
   @MessagePattern({ cmd: 'createTour' })
-  async createTour(@Payload() createTourDto: CreateTourDto) {
+  async createTour(
+    @Payload() createTourDto: CreateTourDto,
+  ): Promise<CreateTourDto & Tour> {
     return this.toursService.createTour(createTourDto);
   }
 
   @MessagePattern({ cmd: 'findById' })
-  async findByTitle(@Payload() id: string) {
-    const parsedId = parseInt(id);
+  async findByTitle(@Payload() id: string): Promise<Tour> {
+    const parsedId: number = parseInt(id);
     return await this.toursService.findTourById(parsedId);
   }
 
   @MessagePattern({ cmd: 'allTours' })
-  async allTours() {
+  async allTours(): Promise<Tour[]> {
     return await this.toursService.allTours();
   }
 
@@ -34,7 +37,7 @@ export class ToursMicroserviceController {
       subscribeUserToTour: User;
       isTourExists: Tour;
     },
-  ) {
+  ): Promise<{ msg: string }> {
     isTourExists.subscribers = [];
     isTourExists.subscribers.push(subscribeUserToTour);
     return {
@@ -43,7 +46,7 @@ export class ToursMicroserviceController {
   }
 
   @MessagePattern({ cmd: 'deleteTours' })
-  async deleteTours() {
+  async deleteTours(): Promise<DeleteResult> {
     return await this.toursService.deleteTours();
   }
 }

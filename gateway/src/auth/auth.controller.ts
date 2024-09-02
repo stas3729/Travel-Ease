@@ -9,7 +9,6 @@ import {
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
 import { Response } from 'express';
-import { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -19,14 +18,16 @@ export class AuthController {
   async login(
     @Body() authDto: AuthDto,
     @Res({ passthrough: true }) res?: Response,
-  ) {
-    const response = await this.authService.validateUser(authDto, res);
+  ): Promise<{ msg: string }> {
+    const response: { msg: string } = await this.authService.validateUser(authDto, res);
     if (!response) throw new UnauthorizedException();
     return response;
   }
 
   @Post('logout')
-  logout(@Res() res: Response) {
+  logout(
+    @Res() res: Response,
+  ): Record<string, any> | 'You are not logged in to log out' {
     if (!res.cookie) {
       return 'You are not logged in to log out';
     }

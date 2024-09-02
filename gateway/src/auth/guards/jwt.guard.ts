@@ -28,12 +28,12 @@ export class JwtGuard implements CanActivate {
     }
   }
 
-  private extractTokenFromCookies(request: Request) {
+  private extractTokenFromCookies(request: Request): string {
     const token = request.headers.cookie.slice(6);
     return token;
   }
 
-  private verifyToken(token: string) {
+  private verifyToken(token: string): boolean {
     const decodedToken = this.jwtService.verify(token);
     if (decodedToken) return true;
     return false;
